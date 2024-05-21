@@ -6,7 +6,7 @@
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:27 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/21 15:46:14 by jyao             ###   ########.fr       */
+/*   Updated: 2024/05/21 19:33:30 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,22 @@
 # include	"DnRnamespace.hpp"
 
 namespace	DnRnamespace {
-	void	validateValue(const int &intREF);
-	class	InvalidMoneyException: public std::exception
+	void	isNegativeValue(const int &intREF);
+	class	negativeValueException: public std::exception
+	{
+		private:
+		protected:
+		public:
+			const char	*what(void) const throw();
+	};
+	class	InvalidIdException: public std::exception
+	{
+		private:
+		protected:
+		public:
+			const char	*what(void) const throw();
+	};
+	class	DuplicateIdException: public std::exception
 	{
 		private:
 		protected:
@@ -26,7 +40,5 @@ namespace	DnRnamespace {
 			const char	*what(void) const throw();
 	};
 }
-
-
 
 #endif
