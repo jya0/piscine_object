@@ -6,7 +6,7 @@
 #    By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/21 13:50:17 by jyao              #+#    #+#              #
-#    Updated: 2024/05/21 14:51:13 by jyao             ###   ########.fr        #
+#    Updated: 2024/05/21 15:34:44 by jyao             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@
 
 NAME		:=	divideNconquer
 
-Headers		:=	Account.hpp
+Headers		:=	Account.hpp	Bank.hpp	exceptions.hpp	DnRnamespace.h
 
-FILES		:=	main	Account
+FILES		:=	main	Account	Bank	exceptions
 
 SRCS		=	$(addsuffix .cpp, $(FILES))
 

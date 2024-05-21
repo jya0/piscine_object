@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bank.hpp                                           :+:      :+:    :+:   */
+/*   exceptions.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:54:19 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/21 15:01:22 by jyao             ###   ########.fr       */
+/*   Created: 2024/05/21 15:20:27 by jyao              #+#    #+#             */
+/*   Updated: 2024/05/21 15:46:14 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		BANK_HPP
-# define	BANK_HPP
+#ifndef		EXCEPTIONS_HPP
+# define	EXCEPTIONS_HPP
 
-# include	"Account.hpp"
-# include	<vector>
+# include	<exception>
+# include	"DnRnamespace.hpp"
 
-class Bank
-{
-	private:
-		int							_liquidity;
-		std::vector< Account * >	_clientAccounts;
-	protected:
-	public:
-		Bank(void);
-		~Bank(void);
-		Bank(const Bank &bankREF);
-		Bank	&operator=(const Bank &bankREF);
-
-		const int						&getLiquidity(void) const;
-		const std::vector< Account * >	&getClientAccounts(void) const;
-};
+namespace	DnRnamespace {
+	void	validateValue(const int &intREF);
+	class	InvalidMoneyException: public std::exception
+	{
+		private:
+		protected:
+		public:
+			const char	*what(void) const throw();
+	};
+}
 
 
 

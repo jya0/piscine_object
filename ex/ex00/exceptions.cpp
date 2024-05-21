@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bank.hpp                                           :+:      :+:    :+:   */
+/*   exceptions.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:54:19 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/21 15:01:22 by jyao             ###   ########.fr       */
+/*   Created: 2024/05/21 15:27:08 by jyao              #+#    #+#             */
+/*   Updated: 2024/05/21 15:53:03 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		BANK_HPP
-# define	BANK_HPP
+#include	"exceptions.hpp"
+#include	<string>
 
-# include	"Account.hpp"
-# include	<vector>
+# define	INVALID_VALUE	0
 
-class Bank
+void	DnRnamespace::validateValue(const int &intREF)
 {
-	private:
-		int							_liquidity;
-		std::vector< Account * >	_clientAccounts;
-	protected:
-	public:
-		Bank(void);
-		~Bank(void);
-		Bank(const Bank &bankREF);
-		Bank	&operator=(const Bank &bankREF);
+	if (intREF <= INVALID_VALUE)
+		throw(InvalidMoneyException());
+}
 
-		const int						&getLiquidity(void) const;
-		const std::vector< Account * >	&getClientAccounts(void) const;
-};
-
-
-
-#endif
+const char	*DnRnamespace::InvalidMoneyException::what(void) const throw()
+{
+	return ("The value is invalid because it is either less or equal to 0");
+}
