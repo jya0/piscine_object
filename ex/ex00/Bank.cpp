@@ -6,7 +6,7 @@
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:56:11 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/21 19:53:49 by jyao             ###   ########.fr       */
+/*   Updated: 2024/05/27 14:44:16 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ std::ostream	&operator<<(std::ostream &p_os, const Bank &p_bank)
 	p_os << "Bank informations : " << std::endl;
 	p_os << "Liquidity : " << p_bank.getLiquidity() << std::endl;
 	for (std::vector< Bank::Account * >::const_iterator itc = p_bank.getClientAccounts().cbegin(); itc != p_bank.getClientAccounts().end(); ++itc)
-		p_os << *itc << std::endl;
+		p_os << **itc << std::endl;
 	return (p_os);
 }
 

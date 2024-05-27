@@ -6,7 +6,7 @@
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:54:19 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/21 19:55:35 by jyao             ###   ########.fr       */
+/*   Updated: 2024/05/27 14:36:37 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class Bank
 		std::vector< Account * >			_clientAccounts;
 		std::vector< Account * >::iterator	findClientById(const int &idREF);
 		std::vector< Account * >::iterator	operator[](const int &idREF);
+		const std::vector< Account * >		&getClientAccounts(void) const;
 	protected:
 	public:
 		std::hash< Account * >	ptrHash;
@@ -33,7 +34,6 @@ class Bank
 		Bank	&operator=(const Bank &bankREF);
 
 		const int						&getLiquidity(void) const;
-		const std::vector< Account * >	&getClientAccounts(void) const;
 		void							addMoney(const int &idREF, const int &valueREF);
 		int								createClient(void);
 		void							deleteClient(const int &idREF);
