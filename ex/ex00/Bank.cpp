@@ -6,7 +6,7 @@
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:56:11 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/27 14:44:16 by jyao             ###   ########.fr       */
+/*   Updated: 2024/05/27 17:03:32 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Bank::Bank(void): _liquidity(0)
 Bank::~Bank(void)
 {
 	for (std::vector< Bank::Account * >::iterator it = this->_clientAccounts.begin(); it != this->_clientAccounts.end(); ++it)
-		delete *it;
+		delete (*it);
 }
 
 Bank::Bank(const Bank &bankREF)
@@ -35,6 +35,11 @@ Bank	&Bank::operator=(const Bank &bankREF)
 {
 	if (this != &bankREF)
 	{
+		this->_liquidity = bankREF.getLiquidity();
+		for (std::vector< Account * >::const_iterator itc = bankREF.getClientAccounts().cbegin(); itc != bankREF.getClientAccounts().cend(); ++itc)
+		{
+			this->_clientAccounts.push_back(new Account(**itc));
+		}
 	}
 	return (*this);
 }
@@ -67,7 +72,7 @@ std::vector< Bank::Account * >::iterator	Bank::operator[](const int &idREF)
 	return (accountIt);
 }
 
-void	Bank::addMoney(const int &idREF, const int &valueREF)
+void	Bank::addMoneyToClient(const int &idREF, const int &valueREF)
 {
 	int	ceilClientValue;
 	int	floorBankInterest;
@@ -81,6 +86,34 @@ void	Bank::addMoney(const int &idREF, const int &valueREF)
 	DnRnamespace::isNegativeValue(this->_liquidity + floorBankInterest);
 	(*accountIt)->_value += ceilClientValue;
 	this->_liquidity += floorBankInterest;
+	std::cout	<< ">> received "
+				<< valueREF
+				<< std::endl
+				<< ">> actually added "
+				<< ceilClientValue
+				<< " to client "
+				<< idREF
+				<< std::endl;
+}
+
+void	Bank::setLiquidity(const int &valueREF)
+{
+	DnRnamespace::isNegativeValue(valueREF);
+	this->_liquidity = valueREF;
+	std::cout	<< ">> set "
+				<< valueREF
+				<< " to bank's liquidity"
+				<< std::endl;
+}
+
+void	Bank::addMoneyToBank(const int &valueREF)
+{
+	DnRnamespace::isNegativeValue(valueREF);
+	this->setLiquidity(this->_liquidity + valueREF);
+	std::cout	<< ">> added "
+				<< valueREF
+				<< " to bank"
+				<< std::endl;
 }
 
 int	Bank::createClient(void)
@@ -95,12 +128,18 @@ int	Bank::createClient(void)
 		throw (DnRnamespace::DuplicateIdException());
 	}
 	this->_clientAccounts.push_back(newClient);
+	std::cout	<< ">> created client "
+				<< newClient->_id
+				<< std::endl;
 	return (newClient->_id);
 }
 
 void	Bank::deleteClient(const int &idREF)
 {
 	_clientAccounts.erase(this->operator[](idREF));
+	std::cout	<< ">> removed client "
+				<< idREF
+				<< std::endl;
 }
 
 void	Bank::modClient(const int &idREF, const int *newID, const int *newValue)
@@ -110,34 +149,53 @@ void	Bank::modClient(const int &idREF, const int *newID, const int *newValue)
 	accountIt = this->operator[](idREF);
 	if (newID)
 	{
-		if (findClientById(*newID) != _clientAccounts.end())
-			throw (DnRnamespace::DuplicateIdException());
-		(*accountIt)->_id = *newID;
+		if (*newID != idREF)
+		{
+			if (findClientById(*newID) != _clientAccounts.end())
+				throw (DnRnamespace::DuplicateIdException());
+			(*accountIt)->_id = *newID;
+			std::cout	<< ">> client changed id to "
+						<< *newID
+						<< std::endl;
+		}
+		else
+			std::cout	<< ">> client keeps the same id "
+						<< *newID
+						<< std::endl;
 	}
 	if (newValue)
 	{
 		DnRnamespace::isNegativeValue(*newValue);
 		(*accountIt)->_value = *newValue;
+		std::cout	<< ">> client balance changed to "
+					<< *newValue
+					<< std::endl;
 	}
 }
 
 void	Bank::loanToClient(const int &idREF, const int &loanREF)
 {
 	DnRnamespace::isNegativeValue(_liquidity - loanREF);
-	this->addMoney(idREF, loanREF);
+	this->addMoneyToClient(idREF, loanREF);
 	_liquidity -= loanREF;
+	std::cout	<< ">> loaned "
+				<< loanREF
+				<< " to "
+				<< idREF
+				<< std::endl;
 }
 
 std::ostream	&operator<<(std::ostream &p_os, const Bank::Account &p_account)
 {
-	p_os << "[" << p_account.getId() << "] - [" << p_account.getValue() << "]";
+	p_os << "Client [" << p_account.getId() << "] has [" << p_account.getValue() << "] balance";
 	return (p_os);
 }
 
 std::ostream	&operator<<(std::ostream &p_os, const Bank &p_bank)
 {
-	p_os << "Bank informations : " << std::endl;
-	p_os << "Liquidity : " << p_bank.getLiquidity() << std::endl;
+	p_os	<< "Bank informations: "
+			<< std::endl;
+	p_os << "Liquidity: " << p_bank.getLiquidity() << std::endl;
 	for (std::vector< Bank::Account * >::const_iterator itc = p_bank.getClientAccounts().cbegin(); itc != p_bank.getClientAccounts().end(); ++itc)
 		p_os << **itc << std::endl;
 	return (p_os);
