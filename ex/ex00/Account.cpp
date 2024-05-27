@@ -6,7 +6,7 @@
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:34:34 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/21 19:50:55 by jyao             ###   ########.fr       */
+/*   Updated: 2024/05/27 17:23:39 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ Bank::Account	&Bank::Account::operator=(const Account &accountREF)
 {
 	if (this != &accountREF)
 	{
-		this->_id		= accountREF.getId();
-		this->_value	= accountREF.getValue();
+		this->_id		= accountREF._id;
+		this->_value	= accountREF._value;
 	}
 	return (*this);
 }

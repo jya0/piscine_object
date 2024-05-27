@@ -6,7 +6,7 @@
 /*   By: jyao <jyao@student.42abudhabi.ae>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:56:11 by jyao              #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:32 by jyao             ###   ########.fr       */
+/*   Updated: 2024/05/27 17:24:16 by jyao             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ Bank	&Bank::operator=(const Bank &bankREF)
 {
 	if (this != &bankREF)
 	{
-		this->_liquidity = bankREF.getLiquidity();
-		for (std::vector< Account * >::const_iterator itc = bankREF.getClientAccounts().cbegin(); itc != bankREF.getClientAccounts().cend(); ++itc)
+		this->_liquidity = bankREF._liquidity;
+		for (std::vector< Account * >::const_iterator itc = bankREF._clientAccounts.cbegin(); itc != bankREF._clientAccounts.cend(); ++itc)
 		{
 			this->_clientAccounts.push_back(new Account(**itc));
 		}
